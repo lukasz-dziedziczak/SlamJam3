@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ public class UI : MonoBehaviour
     [field: SerializeField] public Image Pointer { get; private set; }
     [SerializeField] Color grayPointer;
     [SerializeField] Color greenPointer;
+    [SerializeField] TMP_Text count;
 
     private void Awake()
     {
@@ -18,7 +20,7 @@ public class UI : MonoBehaviour
 
     private void Start()
     {
-        //UpdatePointer(false);
+        UpdateCount();
     }
 
     public static void UpdatePointer(bool isActive)
@@ -34,5 +36,9 @@ public class UI : MonoBehaviour
         
     }
 
+    public static void UpdateCount()
+    {
+        Instance.count.text = Grid.OnCount.ToString();
+    }
 
 }

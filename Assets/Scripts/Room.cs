@@ -35,6 +35,7 @@ public class Room : MonoBehaviour
             neonlight.Set(roomSwitch.IsOn);
         }
 
+        UI.UpdateCount();
         if (Grid.AllOn) Debug.LogWarning("Game Complete!");
     }
 
