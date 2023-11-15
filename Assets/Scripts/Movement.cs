@@ -10,6 +10,7 @@ public class Movement : MonoBehaviour
     [SerializeField] float movementSpeed;
     [SerializeField] float rotationSpeed;
     [SerializeField] float maxRotationAngle = 70;
+    public bool Enabled;
 
     private void Awake()
     { 
@@ -18,13 +19,14 @@ public class Movement : MonoBehaviour
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
         player.Camera.transform.localRotation = Quaternion.identity;
+        UI.Instance.Blackscreen.FadeInComplete += EnableMovement;
     }
 
     private void FixedUpdate()
     {
+        if (!Enabled) return;
+
         Vector3 position = transform.position;
         Quaternion rotation = transform.rotation;
 
@@ -51,5 +53,10 @@ public class Movement : MonoBehaviour
         }
         rotation = Quaternion.Euler(camRotEuler.x, camRotEuler.y, camRotEuler.z);
         player.Camera.transform.localRotation = rotation;
+    }
+
+    public void EnableMovement()
+    {
+        Enabled = true;
     }
 }

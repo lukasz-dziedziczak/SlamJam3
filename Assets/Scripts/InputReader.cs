@@ -9,6 +9,7 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
     [field: SerializeField] public Vector2 Movement { get; private set; }
     [field: SerializeField] public Vector2 Look { get; private set; }
     public event Action Interact;
+    public event Action Pause;
 
     void Start()
     {
@@ -30,5 +31,10 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
     public void OnMovement(InputAction.CallbackContext context)
     {
         Movement = context.ReadValue<Vector2>();
+    }
+
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.performed) Pause?.Invoke();
     }
 }

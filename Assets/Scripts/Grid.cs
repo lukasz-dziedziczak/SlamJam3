@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using static Grid;
 
@@ -9,6 +10,9 @@ public class Grid : MonoBehaviour
     public static Grid Instance { get; private set; }
     [field: SerializeField] public Room[] Rooms {  get; private set; }
     [SerializeField] Layout[] layouts;
+    [SerializeField] SFX_GameSounds gameSounds;
+    bool gameComplete;
+    float timer;
 
     private void Awake()
     {
@@ -21,6 +25,12 @@ public class Grid : MonoBehaviour
         //SetAllOff();
         //SetRandomOn();
         SetRandomLayout();
+        gameSounds.PlayOpeningSound();
+    }
+
+    private void Update()
+    {
+        if (!gameComplete) timer += Time.deltaTime;
     }
 
     private void RandomOnOff()
@@ -156,4 +166,21 @@ public class Grid : MonoBehaviour
 
     }
 
+    public static void GameComplete()
+    {
+        Instance.gameSounds.PlayCompleteSound();
+        UI.Instance.Blackscreen.StartFadeOut();
+        Instance.gameComplete = true;
+        UI.Instance.Blackscreen.FadeOutComplete += UI.ShowWinScreen;
+    }
+
+    public static string TimeString
+    {
+        get
+        {
+            int minutes = Mathf.FloorToInt(Instance.timer / 60);
+            int seconds = Mathf.FloorToInt(Instance.timer % 60);
+            return minutes + ":" + seconds;
+        }
+    }
 }

@@ -11,6 +11,7 @@ public class Room : MonoBehaviour
     [SerializeField] Door roomDoor;
 
     Grid grid;
+    SFX_GameSounds gameSounds;
 
     private void Awake()
     {
@@ -22,6 +23,7 @@ public class Room : MonoBehaviour
         if (roomSwitch == null) roomSwitch = GetComponentInChildren<Switch>();
 
         grid = GetComponentInParent<Grid>();
+        gameSounds = FindObjectOfType<SFX_GameSounds>();
     }
 
     private void Start()
@@ -35,8 +37,8 @@ public class Room : MonoBehaviour
             neonlight.Set(roomSwitch.IsOn);
         }
 
-        UI.UpdateCount();
-        if (Grid.AllOn) Debug.LogWarning("Game Complete!");
+        //UI.UpdateCount();
+        if (Grid.AllOn) Grid.GameComplete();
     }
 
     public void Set(bool isOn)
